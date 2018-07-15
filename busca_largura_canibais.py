@@ -10,7 +10,6 @@ class Estado:
         self.ilha2 = ilha2
         self.acao = acao
 
-
 class Node:
     def __init__(self, atual, anterior):
         self.estadoAtual = atual
@@ -20,25 +19,39 @@ class Node:
         else:
             self.custo = self.nodeAnterior.custo + 1
 
-
 def possivel(curr_estado, futuro_estado):
     #  i, j,   k, l,    m, n     i2, j2,    k2, l2,    m2, n2
-
     #Caso não haver mudança.
     if futuro_estado.ilha1 == curr_estado.ilha1 and futuro_estado.barco == curr_estado.barco:
         return 0
     # Se esta "carregando" do lado esquerdo, a sua direita deve ser fixada. Não permitte desvantagem na ilha1.  Remove viagem de uma pessoa só.
     if (futuro_estado.acao == 1) and (curr_estado.ilha2 == futuro_estado.ilha2) and (futuro_estado.ilha1[0] == 0 or (
-            futuro_estado.ilha1[0] > 0 and futuro_estado.ilha1[0] >= futuro_estado.ilha1[1]) and ((futuro_estado.ilha1[0] + futuro_estado.ilha1[1] != 0 and futuro_estado.barco[0] + futuro_estado.barco[
-            1] > 1) or (futuro_estado.ilha1[0] + futuro_estado.ilha1[1] == 0))
-    ):
+            futuro_estado.ilha1[0] > 0 and futuro_estado.ilha1[0] >= futuro_estado.ilha1[1])) and ((futuro_estado.ilha1[0] + futuro_estado.ilha1[1] != 0 and futuro_estado.barco[0] + futuro_estado.barco[
+            1] > 1) or (futuro_estado.ilha1[0] + futuro_estado.ilha1[1] == 0)):
+        if ((futuro_estado.ilha2[0]>0 or futuro_estado.barco[0] >0) and futuro_estado.ilha2[0] + futuro_estado.barco[0] >= futuro_estado.barco[1]+futuro_estado.ilha2[1] ) or (futuro_estado.ilha2[0]==0 and futuro_estado.barco[0]==0):
+            return 1
+    # Se esta "carregando" do lado direito, a sua esquerda deve ser fixada. Não permitte desvantagem na ilha2.  Remove viagem de duas pessoas.
+    if (futuro_estado.acao == -1) and (curr_estado.ilha1 == futuro_estado.ilha1) and (futuro_estado.ilha2[0] == 0 or (
+            futuro_estado.ilha2[0] > 0 and futuro_estado.ilha2[0] >= futuro_estado.ilha2[1])):
+        if ((futuro_estado.ilha1[0] > 0 or futuro_estado.barco[0] >0) and futuro_estado.ilha1[0] + futuro_estado.barco[0] >= futuro_estado.barco[1]+futuro_estado.ilha1[1] ) or (futuro_estado.ilha1[0]==0 and futuro_estado.barco[0]==0):
+            return 1
+    return 0
+
+def possivel_2(curr_estado, futuro_estado):
+    #  i, j,   k, l,    m, n     i2, j2,    k2, l2,    m2, n2
+    #Caso não haver mudança.
+    if futuro_estado.ilha1 == curr_estado.ilha1 and futuro_estado.barco == curr_estado.barco:
+        return 0
+    # Se esta "carregando" do lado esquerdo, a sua direita deve ser fixada. Não permitte desvantagem na ilha1.  Remove viagem de uma pessoa só.
+    if (futuro_estado.acao == 1) and (curr_estado.ilha2 == futuro_estado.ilha2) and (futuro_estado.ilha1[0] == 0 or (
+            futuro_estado.ilha1[0] > 0 and futuro_estado.ilha1[0] >= futuro_estado.ilha1[1])) and ((futuro_estado.ilha1[0] + futuro_estado.ilha1[1] != 0 and futuro_estado.barco[0] + futuro_estado.barco[
+            1] > 1) or (futuro_estado.ilha1[0] + futuro_estado.ilha1[1] == 0)):
         return 1
     # Se esta "carregando" do lado direito, a sua esquerda deve ser fixada. Não permitte desvantagem na ilha2.  Remove viagem de duas pessoas.
     if (futuro_estado.acao == -1) and (curr_estado.ilha1 == futuro_estado.ilha1) and (futuro_estado.ilha2[0] == 0 or (
             futuro_estado.ilha2[0] > 0 and futuro_estado.ilha2[0] >= futuro_estado.ilha2[1])) and (futuro_estado.barco[0] + futuro_estado.barco[1] != 2):
         return 1
     return 0
-
 
 def verificaRepetidos(curr_node, futuro_state):
     if curr_node.estadoAtual == futuro_state:
@@ -61,7 +74,7 @@ def possibilidades(curr_node):
                     n = 3 - l - j
                     if (k + l <= 2) and (k + l != 0 or i + j == 6 or m + n == 6):
                         futuro = Estado((i, j), (k, l), (m, n), new_action)
-                        if possivel(currState, futuro) == 1:
+                        if possivel_2(currState, futuro) == 1:
                             if verificaRepetidos(curr_node, futuro) == 0:
                                 puss.append(Node(futuro, curr_node))
     return puss
