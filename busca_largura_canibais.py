@@ -1,7 +1,6 @@
 from collections import deque
 
 f = deque() #Fronteira
-counter = 0
 
 class Estado:
     def __init__(self, ilha1, barco, ilha2, acao):
