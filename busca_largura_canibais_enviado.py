@@ -36,22 +36,6 @@ def possivel(curr_estado, futuro_estado):
             return 1
     return 0
 
-def possivel_2(curr_estado, futuro_estado):
-    #  i, j,   k, l,    m, n     i2, j2,    k2, l2,    m2, n2
-    #Caso não haver mudança.
-    if futuro_estado.ilha1 == curr_estado.ilha1 and futuro_estado.barco == curr_estado.barco:
-        return 0
-    # Se esta "carregando" do lado esquerdo, a sua direita deve ser fixada. Não permitte desvantagem na ilha1.  Remove viagem de uma pessoa só.
-    if (futuro_estado.acao == 1) and (curr_estado.ilha2 == futuro_estado.ilha2) and (futuro_estado.ilha1[0] == 0 or (
-            futuro_estado.ilha1[0] > 0 and futuro_estado.ilha1[0] >= futuro_estado.ilha1[1])) and ((futuro_estado.ilha1[0] + futuro_estado.ilha1[1] != 0 and futuro_estado.barco[0] + futuro_estado.barco[
-            1] > 1) or (futuro_estado.ilha1[0] + futuro_estado.ilha1[1] == 0)):
-        return 1
-    # Se esta "carregando" do lado direito, a sua esquerda deve ser fixada. Não permitte desvantagem na ilha2.  Remove viagem de duas pessoas.
-    if (futuro_estado.acao == -1) and (curr_estado.ilha1 == futuro_estado.ilha1) and (futuro_estado.ilha2[0] == 0 or (
-            futuro_estado.ilha2[0] > 0 and futuro_estado.ilha2[0] >= futuro_estado.ilha2[1])) and (futuro_estado.barco[0] + futuro_estado.barco[1] != 2):
-        return 1
-    return 0
-
 def verificaRepetidos(curr_node, futuro_state):
     if curr_node.estadoAtual == futuro_state:
         return 1  # Tem repetido

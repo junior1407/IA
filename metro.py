@@ -1,4 +1,7 @@
 from collections import deque
+
+#Para mudar a origem e destino, basta mudar a ultima linha do input.txt
+
 f = list()
 tabelaHeuristica = list()
 tabelaReal = list()
@@ -49,7 +52,7 @@ def printPath(list):
             if (troca==1):
                 print("+", TROCA_ESTACAO, "minutos")
             troca = 1
-        print("Estacao: ", list[x].estadoAtual.estacao, " kms rodados: ",list[x].distanciaReal, " tempo acumulado: ", list[x].tempoReal, " tempo rodando: ", list[x].distanciaReal * VELOCIDADE)
+        print("Estacao: ", list[x].estadoAtual.estacao, " kms rodados: ",list[x].distanciaReal, " / tempo acumulado: ", list[x].tempoReal, "minutos / tempo rodando: ", list[x].distanciaReal * VELOCIDADE," minutos")
 
 def possibilidades(curr_node,fim):
     estacao = curr_node.estadoAtual.estacao
@@ -107,7 +110,6 @@ def real_distance(origin, destiny):
     if int(tabelaReal[int(origin.estacao)-1][int(destiny.estacao)-1]) != -1:
         return int(tabelaReal[int(origin.estacao)-1][int(destiny.estacao)-1])
     return int(tabelaReal[int(destiny.estacao)-1][int(origin.estacao)-1])
-
 
 file = open("input.txt")
 n_estacoes = int(file.readline())
